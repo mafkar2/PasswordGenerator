@@ -49,13 +49,16 @@ function getPasswordOptions() {
     'Click OK to confirm including uppercase characters.'
   );
   // Conditional statement to check if user does not include any types of characters. Password generator ends if all four variables evaluate to false
-  if (hasSpecialCharacters) {
-  }else if (hasNumericCharacters) {
-  }else if (hasLowercaseCharacters) {
-  }else if (hasUppercaseCharacters) {
-  }else {
-    alert('Password must include at least one character type.')
-  }
+  // if (hasSpecialCharacters) {
+  // }else if (hasNumericCharacters) {
+  // }else if (hasLowercaseCharacters) {
+  // }else if (hasUppercaseCharacters) {
+  // }else {
+    if (hasSpecialCharacters === false && hasNumericCharacters === false  && hasLowercaseCharacters === false && hasUppercaseCharacters === false ) {
+      alert('Password must include at least one character type.')
+      return null;
+    }
+ 
   // Object to store user input
   var passwordOptions = {
     length: length,
@@ -72,37 +75,63 @@ function getPasswordOptions() {
 function getRandom(arr) {
   var randIndex = Math.floor(Math.random() * arr.length);
   var randElement = arr[randIndex];
-
+console.log(randElement);
   return randElement;
 }
 
 // Function for generating a password with given inputs
 function generatePassword() {
   var options = getPasswordOptions();
-  // Create an empty array
-  var currentArr = new Array()
+  // Create an empty array/purpose to put final password characters in
+  // var currentArr = new Array()
+  var currentArr = []
+  //guarantee of user choice array
+  var guarantee = []
+//remaining spaces open for random characters chosen by app
+  var possibles = []
   // Conditional Statement that concatinates a new array
   if (options.hasSpecialCharacters) {
-    currentArr= currentArr.concat(specialCharacters)
+    possibles= possibles.concat(specialCharacters)
+    guarantee.push(getRandom(specialCharacters))
   }
   if (options.hasNumericCharacters) {
-    currentArr= currentArr.concat(numericCharacters)
+    possibles= possibles.concat(numericCharacters)
+    guarantee.push(getRandom(numericCharacters))
   }
   if (options.hasLowercaseCharacters) {
-    currentArr= currentArr.concat(lowerCasedCharacters)
+    possibles= possibles.concat(lowerCasedCharacters)
+    guarantee.push(getRandom(lowerCasedCharacters))
   }
   if(options.hasUppercaseCharacters) {
-    currentArr= currentArr.concat(upperCasedCharacters)
+    possibles= possibles.concat(upperCasedCharacters)
+    guarantee.push(getRandom(upperCasedCharacters))
   }
-  console.log(currentArr)
+  console.log(possibles)
+  console.log(guarantee);
   // Generate random string password from new array
-  let pass = ""
-  let i = 0
-  while (i < options.length) {
-    pass += getRandom(currentArr);
-    i++
-  } 
-  return pass
+  // let pass = ""
+  // let i = 0
+  // while (i < options.length) {
+  //   pass += getRandom(currentArr);
+  //   i++
+  // } 
+  // return pass
+//to randomize the array of possibles which includes all the arrays, based on the length, randomizing for 
+for (let i = 0; i < options.length; i++) {
+ var possibleCharacter = getRandom(possibles)
+ currentArr.push(possibleCharacter)
+ 
+ console.log(currentArr);
+}
+
+for (let i = 0; i < guarantee.length; i++) {
+ currentArr[i] = guarantee[i]
+  
+}
+console.log(currentArr);
+return currentArr.join('')
+
+
 }
 
 // Write password to the #password input
